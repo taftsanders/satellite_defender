@@ -113,6 +113,18 @@ def write_output(location):
     print(write_puppet(location), file = open(location, 'a'))
 
 def main():
+    if not os.path.exists(PUPPET_HTTP_LOG):
+	print("Puppet Log - %s is not accessible, please update the PUPPET_HTTP_LOG location" % PUPPET_HTTP_LOG)
+	sys.exit(1)
+    if not os.path.exists(FOREMAN_HTTP_LOG):
+	print("Foreman Log - %s is not accessible, please update the FOREMAN_HTTP_LOG location" % FOREMAN_HTTP_LOG)
+	sys.exit(1)
+    if os.path.getsize(PUPPET_HTTP_LOG) == 0:
+	print("Puppet Log - %s is empty, please ensure that the PUPPET_HTTP_LOG location is correct" % PUPPET_HTTP_LOG)
+	sys.exit(1)
+    if os.path.getsize(FOREMAN_HTTP_LOG) == 0:
+	print("Foreman Log - %s is empty, please ensure that the FOREMAN_HTTP_LOG location is correct" % FOREMAN_HTTP_LOG)
+	sys.exit(1)
     if not os.path.exists(OFFENDERS_LOG):
         create_file()
     with open(OFFENDERS_LOG, 'a') as log:
